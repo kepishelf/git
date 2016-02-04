@@ -1,0 +1,242 @@
+﻿Git Quick Reference		
+- \sandbox\git\git-reference.txt
+................................................................
+
+Spaces
+Working : changes
+Stage   : Index
+HEAD    : last commit
+
+The Local user.email   setting determins "who" is pushing to the repository
+The "github" account , pwd  is used to determine the github Remote Repo to push to 
+
+ONLINE GUIDES
+-------------
+Chrome Bookmarks
+	work\git
+
+Good one
+	https://www.atlassian.com/git/tutorials/setting-up-a-repository
+Simple guide
+	http://rogerdudler.github.io/git-guide/
+image based explanation
+	http://marklodato.github.io/visual-git-guide/index-en.html
+Git Remote  (And other good git Reference w/Explanations)
+	http://gitref.org/remotes/
+
+
+Quick commands	
+=================================================================================
+git clone <url>					download remote repo / checkout for the first time 
+git remote add <alias> <url>	set alias to remote repo / github URL
+git remote -v					show status of remote repositories  ( origin = remote HEAD default name from clone)
+git config --global user.email accounts@reachjeff.com
+
+
+Get date/time of last Pull 
+ - dir .git\FETCH_HEAD
+
+
+Creating a new Remote repo
+--------------------------
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/kepishelf/ruby.git
+git push -u origin master
+
+
+
+COMBINING A NEW SET OF LOCAL FILES with Existing Remote REPO
+----------------------------------------------------------
+- create new local dir with files
+- initialize that directory as a git repo
+git init
+
+- pull down the existing repo  (first create the alias : ruby)
+git remote add ruby https://github.com/kepishelf/ruby.git
+git fetch ruby/master
+
+other methods : 
+--------------------
+git pull <remote>
+- Fetch the specified remote’s copy of the current branch and immediately merge it 
+- into the local copy. This is the same as 
+--- git fetch <remote> 
+--- git merge origin/<current-branch>.
+
+git pull --rebase <remote>
+- The --rebase option can be used to ensure a linear history by preventing 
+- unnecessary merge commits. Many developers prefer rebasing over merging, 
+- since it’s like saying, “I want to put my changes on top of what everybody else
+- has done.” In this sense, using git pull with the --rebase flag is even more 
+- like svn update than a plain git pull.
+
+- add local changes to stage and commit
+git add .
+git commit -am "commmit message"
+
+- merge local changes into current "fetched" branch (master)
+--- git merge origin/<current-branch>
+git merge ruby master
+
+git push <remote> <branch>
+- To prevent you from overwriting commits, Git won’t let you push when it results 
+- in a non-fast-forward merge in the destination repository
+--   --force   (will overwrite)
+
+git push ruby master   (may complain its' a non fast-forward
+- push your local merged in changes to remote repo.
+
+
+
+
+COMMAND REFERENCES 
+-------------------------------------------------------------------------------------------
+
+Local
+------
+git add <filename> or .			Stage / Adds to index, File or "." to add all files to Index   [ file:///C:/Apps/Git/doc/git/html/git-add.html
+git commit -am "Commit msg"		-a  add all files to stage,  -m  include a "message "	
+								will not include any files not "add" yet
+git diff						diff between local - default is Working and Stage /Index
+git reset HEAD <file>			This will Un-Stage your local
+								
+Remote	
+--------							
+git push origin master (branch)	push the last commit to current "origin" (remote repo default alias)
+git push jeff master			same as "origin master" if aliasname "jeff" points to same remote repo
+git remote add origin <server>	When you did not CLONE a repo, but created local - Add it to the "origin" server with url
+
+git fetch						The git fetch command will fetch all changes that happened in the origin. 
+								since you made changes to local
+git fetch						If you instead want to drop all your local changes and commits, fetch 
+git pull 						Pull down the current remote repo OVERWRITING any local repo changes
+								Does a "git fetch", then a "git merge"
+git reset --hard origin/master	the latest history from the server and point your local master branch 
+								at it like this
+
+??? not sure about this
+  a "Pull" request on the github / remote server is actually a push from a local that needs approval
+								
+BRANCHING
+------------
+git checkout -b <your_branch>		create "your_branch" and switch to it.
+git branch -d <your_branch>			delete our newly created branch
+git checkout master					switch back to "master"
+ then "git pull"  to refreshe with latest
+git push -u origin <your_branch>	pushs the new branch to remote repo
+										Results in a "Pull" request at github - ON remote, someone must approve this.
+git push origin brancha				will push local commits to brancha
+git pull							Update Local with latest commits at remote
+git push --all -u					This will push all your branches to the remote, and set-upstream tracking correctly for you:
+
+MERGING
+-------
+git checkout brancha
+git merge --strategy=ours origin    # keep the content of this branch, but record a merge
+git checkout master
+git merge brancha             		# fast-forward master up to the merge
+
+
+https://github.com/jeffwarvel/test01.git
+
+
+
+
+=================================================================================
+Git Intro - Ruby on Rails coursera
+=================================================================================
+
+- Distributed Version Control System -  ( full repository is local )
+- .git directory at top level of project	
+
+git Sandbox
+----------
+d:\temp\git2		d:\temp\gittest
+
+
+
+Basics
+- Create a repository or Clone a repo
+- Staging (local area that is ready for a Commit)
+- Commit to LOCAL
+- Push changes to REMOTE Repo
+- "origin" is default remote repo name after a clone
+- "master" is the default HEAD on the local repo  (confirm this??)
+
+- Working directory : is local changes that are not staged or commited
+- Colors 
+	Green : staged
+	Red   : changed
+- Untracked 	--> files changed, but not staged
+- HEAD 		--> Latest commit on current Branch in Repo
+
+
+TUTORIAL 
+- git-scm.com	: Learn Git in your browser
+- getref.org	: Most used commands
+
+Configure
+	Global settings exist for ANY git instance, 
+	but Repo specific will livein that Cloned Repo 
+- git config --list		or look at your \.git\config
+- git config --global user.name "Jeff Warvel"
+- git config --global user.email j@j.com
+
+
+Common Commands
+	git add  	(tracks local file(s) )
+		. 	all in current dir
+	git status
+	git diff 		
+		--staged			diff between Working and Staging
+	git commit -m "commit test 01"		commit all Staged Files
+		-am				will bypass Stage and Commit
+	git checkout . 				check out ALL tracked files overwriting all Local Working dir
+		-- <file>
+	git revert HEAD				revert most recent Commit
+
+Restore a deleted file
+- git checkout <filename>
+
+Creating local Repo
+- cd \a\a\
+- git init
+- git add .	adds all current files 
+	.gitignore  	(do not include these in Repo)
+- git commit -m "Description"
+- git clone http://xxxxxxxxxxx
+	Clone to a local Repo
+
+Remote Repository
+- git remote add alias <url>		setup an alias to a Remote Repo
+	origin				Alias when you "CLONE" a repo
+- git push <aliasname> <branchname>		PUSH to remote repo
+- git pull <alias> master		Update local repo with the current Master / HEAD
+
+
+Create a Remote Repo
+-- git init --bare <directory>
+	always setup remote as Bare - which means no working directory
+	this way any push from a client will not overwrite the Remote content
+
+Testing 
+--------------
+Github : jeff@reachjeff.com		jeffwarvel, j8		Jeff Gavel
+
+	
+Github
+--------
+Searching from website 
+	"T"	puts in serach mode
+
+Github URLS - ruby course and testing
+-----------------------------------
+https://github.com/jhu-ep-coursera/fullstack-course1-module3
+https://github.com/jeffwarvel/testruby
+
+
+https://github.com/jhu-ep-coursera/fullstack-course1-module2
+	You can find PDF copies of all the Module 2 Lecture slides at the following URL
+	https://github.com/jhu-ep-coursera/fullstack-course1-module2/tree/master/Slides

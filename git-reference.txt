@@ -1,54 +1,122 @@
-﻿Git Quick Reference		
-- \sandbox\git\git-reference.txt
-................................................................
+Git Quick Reference		
+- J:\sandbox\git\git-reference.txt
 
+
+................................................................
 Spaces
 Working : changes
 Stage   : Index
 HEAD    : last commit
 
+Github: 
+Accounts:  (updated 5/10/2020)
+	kepishelf		a@rj.com		kmgm			test repo, groovy repo, ruby repo
+	jeffwarvel		jeff@rj.com		kmgm				
+................................................................
+	
+	
+CONFIGURATION
+----------------------------------------------------
 The Local user.email   setting determins "who" is pushing to the repository
 The "github" account , pwd  is used to determine the github Remote Repo to push to 
 
+
+Local Setup / Config - laptop
+----------------------------------------------------
+- Each folder / local stuff can have it's own git setup
+	C:\Users\jwarvel2\.gitconfig				default after install GitforWindows / Git Bash
+
+
+GLOBAL CONFIRUATIONS
+----------------------------------------------------
+git config --list --show-origin
+git config --global user.email accounts@reachjeff.com
+git config --global user.name
+
+where is the username and password stored??? 
+
+
+Vocabulary:
+----------------------------------------------------
+remote
+	is the external / remote Repository to which you are accessing / committing. 
+	github is a remote - there others; bitbucket, etc.
+	
+	
+HEAD 
+	is not the latest revision, it's the current revision. Usually, it's the latest revision of the current branch, but it doesn't have to be.
+
+master 
+	is a name commonly given to the main branch, but it could be called anything else (or there could be no main branch).
+
+origin 
+	origin: 
+		the default name that git gives to your main remote repo. Your workstation has its own repo  (local repo)
+		and you most likely push out to some remote repo that you and all your coworkers push to. 
+		That remote repo is almost always called origin, but it doesn't have to be.
+	
+	is a name commonly given to the main remote. remote is another repository that you can pull from and push to. 
+		Usually it's on some server, like github.
+	
+
+
 ONLINE GUIDES
 -------------
+Regenstrief Tools - Jeff Stroup
+	https://tools.regenstrief.org/wiki/display/~jstroup/Git+Survival+Guide
+
 Chrome Bookmarks
 	work\git
 
 Good one
 	https://www.atlassian.com/git/tutorials/setting-up-a-repository
-Simple guide
+
+Git the Simple guide
 	http://rogerdudler.github.io/git-guide/
-image based explanation
+	
+Image based explanation
 	http://marklodato.github.io/visual-git-guide/index-en.html
+	
 Git Remote  (And other good git Reference w/Explanations)
 	http://gitref.org/remotes/
+	
+Create a pull request in github / Forking to your github repo
+	https://opensource.com/article/19/7/create-pull-request-github
+	Fork a repo to your github, git clone to local (rename), modify content, git commit, git push, 
+	then reveiew in your github , has an option to submit pull request.
+	
+Beginners guide for git and Github
+	https://www.freecodecamp.org/news/the-beginners-guide-to-git-github/
+	
 
-
+	
 Quick commands	
 =================================================================================
 git clone <url>					download remote repo / checkout for the first time 
+git clone username@host:/path/to/repository		
 git remote add <alias> <url>	set alias to remote repo / github URL
-git remote -v					show status of remote repositories  ( origin = remote HEAD default name from clone)
-git config --global user.email accounts@reachjeff.com
+git remote -v					show status of remote repositories  ( origin = remote HEAD default name from clone )
 
 
 Get date/time of last Pull 
  - dir .git\FETCH_HEAD
 
 
-Creating a new Remote repo
---------------------------
+Creating a new Remote repo from your Local "repo"
+----------------------------------------------------
 git init
 git add README.md
 git commit -m "first commit"
 git remote add origin https://github.com/kepishelf/ruby.git
+git remote add origin <server>
+   If you have not cloned an existing repository and want to connect your new Local repository to a remote server
+   you need to add it with this
 git push -u origin master
 
 
-
+------------------------------------------------------------
 COMBINING A NEW SET OF LOCAL FILES with Existing Remote REPO
-----------------------------------------------------------
+------------------------------------------------------------
 - create new local dir with files
 - initialize that directory as a git repo
 git init
@@ -57,9 +125,13 @@ git init
 git remote add ruby https://github.com/kepishelf/ruby.git
 git fetch ruby/master
 
-other methods : 
---------------------
+
+
+------------------------------------
+Other local and remote commands:
+------------------------------------
 git pull <remote>
+	git pull https://github.com/kepishelf/junk
 - Fetch the specified remote’s copy of the current branch and immediately merge it 
 - into the local copy. This is the same as 
 --- git fetch <remote> 
@@ -81,6 +153,10 @@ git commit -am "commmit message"
 git merge ruby master
 
 git push <remote> <branch>
+	git push origin master 
+	-  pushes your current branch up to the desired repo (origin) , last param is the branch name
+		execute from our local repository (folder)
+
 - To prevent you from overwriting commits, Git won’t let you push when it results 
 - in a non-fast-forward merge in the destination repository
 --   --force   (will overwrite)
@@ -89,14 +165,30 @@ git push ruby master   (may complain its' a non fast-forward
 - push your local merged in changes to remote repo.
 
 
+Clone a repo / same as a git pull ??
+------------------------------------------
+git clone https://github.com/kepishelf/Phenotype_Data_Acquisition pheno
+	this also downloads into a new local repo  (ie. pheno)
 
 
+Create a new Branch 
+--------------------
+Local
+	git checkout -b <new branch name>
+
+git branch 			lists all local branches
+git branch -a 		lists all local and remote branches
+git branch <local branch name>		change to a local branch
+
+
+
+-------------------------------------------------------------------------------------------
 COMMAND REFERENCES 
 -------------------------------------------------------------------------------------------
 
 Local
 ------
-git add <filename> or .			Stage / Adds to index, File or "." to add all files to Index   [ file:///C:/Apps/Git/doc/git/html/git-add.html
+git add <filename> or .			Add a file to "Staging" / also know as the "index"  .. Use File or "." to add all files to Index   [ file:///C:/Apps/Git/doc/git/html/git-add.html
 git commit -am "Commit msg"		-a  add all files to stage,  -m  include a "message "	
 								will not include any files not "add" yet
 git diff						diff between local - default is Working and Stage /Index
@@ -116,17 +208,18 @@ git pull 						Pull down the current remote repo OVERWRITING any local repo chan
 git reset --hard origin/master	the latest history from the server and point your local master branch 
 								at it like this
 
-??? not sure about this
-  a "Pull" request on the github / remote server is actually a push from a local that needs approval
+a "Pull" request on the github / remote server is actually a push from a local that needs approval (a reqest to PULL IN your changes to branch)
+
 								
 BRANCHING
 ------------
 git checkout -b <your_branch>		create "your_branch" and switch to it.
 git branch -d <your_branch>			delete our newly created branch
 git checkout master					switch back to "master"
- then "git pull"  to refreshe with latest
+ then "git pull"  to refresh with latest
 git push -u origin <your_branch>	pushs the new branch to remote repo
 										Results in a "Pull" request at github - ON remote, someone must approve this.
+										on Github a Pull Request is:  you asking the repo moderator to "PULL IN" your changes to xxx branch
 git push origin brancha				will push local commits to brancha
 git pull							Update Local with latest commits at remote
 git push --all -u					This will push all your branches to the remote, and set-upstream tracking correctly for you:
@@ -139,15 +232,12 @@ git checkout master
 git merge brancha             		# fast-forward master up to the merge
 
 
-https://github.com/jeffwarvel/test01.git
-
-
-
-
-=================================================================================
-Git Intro - Ruby on Rails coursera
 =================================================================================
 
+
+-------------------------------------------
+Git Intro - From COURSERA: Ruby on Rails 
+-------------------------------------------
 - Distributed Version Control System -  ( full repository is local )
 - .git directory at top level of project	
 
@@ -225,6 +315,7 @@ Testing
 --------------
 Github : jeff@reachjeff.com		jeffwarvel, j8		Jeff Gavel
 
+
 	
 Github
 --------
@@ -240,3 +331,44 @@ https://github.com/jeffwarvel/testruby
 https://github.com/jhu-ep-coursera/fullstack-course1-module2
 	You can find PDF copies of all the Module 2 Lecture slides at the following URL
 	https://github.com/jhu-ep-coursera/fullstack-course1-module2/tree/master/Slides
+
+
+
+=================================================================================
+Bitbucket / Stash at regenstrief / tools
+
+2021-03-02
+
+
+Intro on empty repo
+--------------------------------
+You have an empty repository
+To get started you will need to run these commands in your terminal.
+
+New to Git? Learn the basic Git commands
+Configure Git for the first time
+git config --global user.name "Jeff Warvel"
+git config --global user.email "jwarvel2@regenstrief.org"
+Working with your repository
+I just want to clone this repository
+If you want to simply clone this empty repository then run this command in your terminal.
+
+git clone https://tools.regenstrief.org/stash/scm/nc3/nc3-data-submission.git
+My code is ready to be pushed
+If you already have code ready to be pushed to this repository then run this in your terminal.
+
+cd existing-project
+git init
+git add --all
+git commit -m "Initial Commit"
+git remote add origin https://tools.regenstrief.org/stash/scm/nc3/nc3-data-submission.git
+git push -u origin master
+My code is already tracked by Git
+If your code is already tracked by Git then set this repository as your "origin" to push to.
+
+cd existing-project
+git remote set-url origin https://tools.regenstrief.org/stash/scm/nc3/nc3-data-submission.git
+git push -u origin --all
+git push origin --tags
+All done with the commands?
+
